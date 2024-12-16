@@ -1,16 +1,18 @@
 import "dotenv/config.js";
 import express from "express";
 import cors from "cors";
-import { connectDB } from "../config/db.js";
-import productRouter from "../routes/productRoute.js";
-import userRouter from "../routes/userRoute.js";
-import cartRouter from "../routes/cartRoute.js";
-import orderRoute from "../routes/orderRoute.js";
+import { connectDB } from "./config/db.js";
+import productRouter from "./routes/productRoute.js";
+import userRouter from "./routes/userRoute.js";
+import cartRouter from "./routes/cartRoute.js";
+import orderRoute from "./routes/orderRoute.js";
 
 //? app config
-const app = express();
 
-//? middlewares
+const app = express();
+const port = 4000;
+
+//? middlewear
 app.use(express.json());
 app.use(cors());
 
@@ -18,6 +20,7 @@ app.use(cors());
 connectDB();
 
 //todo api endpoints
+
 app.use("/api/product", productRouter);
 app.use("/images", express.static("uploads"));
 app.use("/api/user", userRouter);
@@ -28,5 +31,6 @@ app.get("/", (req, res) => {
   res.send("API Working");
 });
 
-//? تصدير التطبيق كـ handler
-export default app;
+app.listen(port, () => {
+  console.log(`Server on started on http://localhost:${port}`);
+});
